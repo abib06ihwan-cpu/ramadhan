@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marhaban Ya Ramadhan - Abib Raifmuaffah Ihwan</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Quicksand:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <style>
+        :root {
+            --primary-green: #064e3b;
+            --emerald: #065f46;
+            --gold: #d4af37;
+            --light-gold: #f3e5ab;
+            --cream: #fffbeb;
+            --dark: #021a14;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--dark);
+            color: var(--cream);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Canvas Latar Belakang */
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Floating Icons Background */
+        .float-icon {
+            position: absolute;
+            color: rgba(212, 175, 55, 0.15);
+            pointer-events: none;
+            z-index: 1;
+            animation: float-around 20s linear infinite;
+        }
+
+        @keyframes float-around {
+            from { transform: translateY(100vh) rotate(0deg); }
+            to { transform: translateY(-20vh) rotate(360deg); }
+        }
+
+        /* Hero Section / Cover */
+        #cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(2, 26, 20, 0.7), rgba(2, 26, 20, 0.9)), 
+                        url('https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80&w=1200');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: all 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+            text-align: center;
+            padding: 20px;
+        }
+
+        #cover.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cover-title {
+            font-family: 'Amiri', serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-open {
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 800;
+            transition: all 0.4s;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-open:hover {
+            transform: scale(1.1);
+            background: var(--light-gold);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.7);
+        }
+
+        /* Main Card Layout */
+        .content-wrapper {
+            max-width: 700px;
+            width: 92%;
+            background: rgba(2, 26, 20, 0.85);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--gold);
+            border-radius: 40px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 10;
+            max-height: 85vh;
+            overflow-y: auto;
+            display: none;
+        }
+
+        /* Decorative Ornaments */
+        .corner-ornament {
+            position: absolute;
+            width: 100px;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 5px var(--gold));
+        }
+        .top-l { top: 0; left: 0; }
+        .top-r { top: 0; right: 0; transform: scaleX(-1); }
+        .bot-l { bottom: 0; left: 0; transform: scaleY(-1); }
+        .bot-r { bottom: 0; right: 0; transform: scale(-1); }
+
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .main-title {
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            color: var(--light-gold);
+            margin-bottom: 5px;
+        }
+
+        .sender-name {
+            font-family: 'Great Vibes', cursive;
+            color: var(--gold);
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+        }
+
+        .message-section {
+            line-height: 2;
+            font-size: 1.15rem;
+            color: rgba(255, 251, 235, 0.95);
+        }
+
+        .icon-row {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+            color: var(--gold);
+        }
+
+        .icon-row i {
+            font-size: 1.8rem;
+            animation: pulse-icon 2s infinite alternate;
+        }
+
+        @keyframes pulse-icon {
+            from { transform: scale(1); opacity: 0.6; }
+            to { transform: scale(1.2); opacity: 1; }
+        }
+
+        .quote-box {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            padding: 30px;
+            font-style: italic;
+            margin: 30px 0;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .btn-forgive {
+            background: var(--gold);
+            color: var(--dark);
+            padding: 16px 45px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .btn-forgive:hover {
+            transform: translateY(-8px) scale(1.05);
+            background: var(--light-gold);
+        }
+
+        /* Lanterns Animation */
+        .lantern {
+            position: absolute;
+            width: 60px;
+            fill: var(--gold);
+            animation: swing 4s ease-in-out infinite alternate;
+            transform-origin: top center;
+            filter: drop-shadow(0 0 15px var(--gold));
+            z-index: 5;
+        }
+
+        @keyframes swing {
+            from { transform: rotate(-10deg); }
+            to { transform: rotate(10deg); }
+        }
+
+        /* Music Controls */
+        .music-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: rgba(212, 175, 55, 0.3);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            color: var(--gold);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: 0.3s;
+            font-size: 1.5rem;
+        }
+
+        .music-btn.playing { animation: pulse-music 2s infinite; }
+        @keyframes pulse-music { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        /* Success Overlay */
+        #success-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+        }
+
+        .success-card {
+            background: var(--primary-green);
+            border: 2px solid var(--gold);
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        /* Scrollbar */
+        .content-wrapper::-webkit-scrollbar { width: 8px; }
+        .content-wrapper::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        @media (max-width: 600px) {
+            .content-wrapper { padding: 40px 20px; }
+            .arabic-text { font-size: 2.2rem; }
+            .sender-name { font-size: 1.8rem; }
+            .main-title { font-size: 1.8rem; }
+            .corner-ornament { width: 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-gradient"></div>
+    <canvas id="starCanvas"></canvas>
+
+    <!-- Floating Background Icons -->
+    <i class="fas fa-moon float-icon" style="left: 10%; animation-duration: 25s; font-size: 2rem;"></i>
+    <i class="fas fa-star float-icon" style="left: 30%; animation-duration: 18s; animation-delay: 2s;"></i>
+    <i class="fas fa-mosque float-icon" style="left: 60%; animation-duration: 30s; animation-delay: 5s; font-size: 2.5rem;"></i>
+    <i class="fas fa-kaaba float-icon" style="left: 85%; animation-duration: 22s; animation-delay: 1s;"></i>
+    <i class="fas fa-beads float-icon" style="left: 45%; animation-duration: 28s; animation-delay: 8s;"></i>
+
+    <!-- Hanging Lanterns -->
+    <svg class="lantern" style="top: -10px; left: 15%;" viewBox="0 0 100 150">
+        <path d="M50,10 V30 M30,30 H70 L75,70 L50,100 L25,70 Z M35,40 H65 M35,55 H65 M35,70 H65" stroke="currentColor" fill="none" stroke-width="2"/>
+        <circle cx="50" cy="115" r="10" fill="currentColor"/>
+    </svg>
+    <svg class="lantern" style="top: -10px; right: 15%; animation-delay: 0.7s;" viewBox="0 0 100 150">
+        <path d="M50,10 V30 M30,30 H70 L75,70 L50,100 L25,70 Z M35,40 H65 M35,55 H65 M35,70 H65" stroke="currentColor" fill="none" stroke-width="2"/>
+        <circle cx="50" cy="115" r="10" fill="currentColor"/>
+    </svg>
+
+    <!-- Cover Section -->
+    <div id="cover">
+        <div class="animate__animated animate__zoomIn">
+            <i class="fas fa-moon-astronomy fa-5x" style="color: var(--gold); margin-bottom: 30px;"></i>
+        </div>
+        <h1 class="cover-title animate__animated animate__fadeInDown">Marhaban Ya Ramadhan</h1>
+        <p style="letter-spacing: 4px; margin-bottom: 40px; color: var(--light-gold);" class="animate__animated animate__fadeInUp">1447 HIJRIYAH • 2026 MASEHI</p>
+        <button class="btn-open animate__animated animate__pulse animate__infinite" onclick="startExperience()">
+            <i class="fas fa-envelope-open-text"></i> BUKA PESAN DARI ABIB
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper animate__animated" id="mainCard">
+        <!-- Corner Icons -->
+        <svg class="corner-ornament top-l" viewBox="0 0 100 100"><path d="M0,0 Q50,0 50,50 Q0,50 0,100" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <svg class="corner-ornament top-r" viewBox="0 0 100 100"><path d="M0,0 Q50,0 50,50 Q0,50 0,100" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <svg class="corner-ornament bot-l" viewBox="0 0 100 100"><path d="M0,0 Q50,0 50,50 Q0,50 0,100" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <svg class="corner-ornament bot-r" viewBox="0 0 100 100"><path d="M0,0 Q50,0 50,50 Q0,50 0,100" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+
+        <span class="arabic-text">مَرْحَبًا يَا رَمَضَانُ</span>
+        <h2 class="main-title">Selamat Menunaikan Ibadah Puasa</h2>
+        <p class="sender-name">Abib Raifmuaffah Ihwan</p>
+
+        <div class="icon-row">
+            <i class="fas fa-mosque"></i>
+            <i class="fas fa-book-quran"></i>
+            <i class="fas fa-star-and-crescent"></i>
+            <i class="fas fa-prayer-beads"></i>
+        </div>
+
+        <div class="message-section">
+            <p><strong>Bismillahirrohmanirrohim,</strong></p>
+            <p>Bulan yang lebih baik dari seribu bulan telah tiba. Ramadhan adalah waktu di mana pintu langit dibuka, pintu neraka ditutup, dan syaitan-syaitan dibelenggu.</p>
+            
+            <div class="quote-box">
+                <i class="fas fa-quote-left" style="position:absolute; top:10px; left:15px; opacity:0.3; font-size:2rem;"></i>
+                "Ya Allah, sampaikanlah kami ke bulan Ramadhan, dan sampaikanlah Ramadhan kepada kami, serta terimalah amalan kami di dalamnya dengan penerimaan yang baik."
+            </div>
+
+            <p><strong>Harapan untuk sebulan ke depan:</strong><br>
+            Semoga setiap sujud kita lebih khusyuk, setiap ayat yang kita baca menjadi penolong, dan setiap sedekah kita menjadi penghapus dosa. Mari kita jadikan Ramadhan tahun ini sebagai Ramadhan terbaik dalam hidup kita.</p>
+            
+            <p style="margin-top: 30px; font-weight: bold; color: var(--gold);">PERMOHONAN MAAF</p>
+            <p>Sebelum melangkah lebih jauh di bulan suci ini, izinkan saya <strong>Abib</strong> memohon maaf yang sedalam-dalamnya jika ada salah kata, perbuatan, atau prasangka yang menyakiti hati teman-teman semua.</p>
+        </div>
+
+        <button class="btn-forgive" onclick="finish()">
+            <i class="fas fa-heart"></i> MAAFKAN & MULAI IBADAH
+        </button>
+        
+        <div class="icon-row" style="margin-top: 40px; opacity: 0.5;">
+            <i class="fas fa-cloud-moon"></i>
+            <i class="fas fa-hands-praying"></i>
+        </div>
+    </div>
+
+    <!-- Music Control -->
+    <div class="music-btn" id="musicBtn" onclick="toggleAudio()">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <!-- Audio Source (Syahdu Arabic Instrument) -->
+    <audio id="bgMusic" loop>
+        <source src="/Users/abibraifmuaffahihwan/Documents/ramadhan.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Final Success Message -->
+    <div id="success-overlay">
+        <div class="success-card animate__animated animate__bounceIn">
+            <i class="fas fa-hand-holding-heart fa-5x" style="color: var(--gold); margin-bottom: 25px;"></i>
+            <h2 style="color: var(--light-gold); font-family: 'Amiri', serif; fontSize: 2.5rem;">Terima Kasih.</h2>
+            <p style="margin: 20px 0; font-size: 1.2rem;">Mari saling Memaafkan dengan tulus.<br>Semoga Allah memberkahi langkah kita di bulan suci ini.</p>
+            <button class="btn-forgive" onclick="location.reload()">Aamiin Ya Rabbal Alamin</button>
+        </div>
+    </div>
+
+    <script>
+        // Star Particle Animation
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random();
+            }
+            draw() {
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                if (this.y < -10) this.reset();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.draw(); p.update(); });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        initParticles();
+        animate();
+
+        // Control Logic
+        const audio = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+
+        function startExperience() {
+            document.getElementById('cover').classList.add('hidden');
+            const card = document.getElementById('mainCard');
+            card.style.display = 'block';
+            card.classList.add('animate__fadeInUp');
+            
+            // Play music with exponential backoff if blocked
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    musicBtn.classList.add('playing');
+                }).catch(error => {
+                    console.log("Audio play blocked by browser");
+                });
+            }
+        }
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.classList.add('playing');
+            } else {
+                audio.pause();
+                musicBtn.classList.remove('playing');
+            }
+        }
+
+        function finish() {
+            document.getElementById('success-overlay').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
